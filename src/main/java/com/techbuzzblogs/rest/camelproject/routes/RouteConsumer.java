@@ -22,7 +22,10 @@ public class RouteConsumer extends RouteBuilder {
 
         restConfiguration()
                 .bindingMode(RestBindingMode.auto)
+                .dataFormatProperty("prettyPrint", "true")
+                .dataFormatProperty("json.in.disableFeatures", "FAIL_ON_EMPTY_BEANS")
                 .component("servlet");
+
 
         rest("/cole")
                 .get("/helloWorld")
@@ -56,7 +59,7 @@ public class RouteConsumer extends RouteBuilder {
                         exchange.getIn().setBody(dto);
                     }
                 })
-                .marshal().json(JsonLibrary.Jackson)
+//                .marshal().json(JsonLibrary.Jackson)
 //                .doTry()
 //                    .doCatch().
 //                .setBody(simple("Hello world, ${header.name}"))
