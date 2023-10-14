@@ -5,9 +5,11 @@ import com.techbuzzblogs.rest.camelproject.model.CarDetailsTypeRequest;
 import com.techbuzzblogs.rest.camelproject.model.CarDetailsTypeResponse;
 import com.techbuzzblogs.rest.camelproject.process.CarDetailsPOSTRequestProcessor;
 import com.techbuzzblogs.rest.camelproject.process.CarDetailsPOSTResponseProcessor;
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.gson.GsonDataFormat;
 import org.apache.camel.model.dataformat.JsonLibrary;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +22,7 @@ public class CarDetailsPOSTRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("direct:TO_CarDetailsPOST")
-                .setHeader("CamelHttpMethod", constant("POST"))
+                .setHeader(Exchange.HTTP_METHOD, constant(HttpMethod.POST))
                 .marshal().json(JsonLibrary.Jackson)
                 .log("BODY ${body}")
                 .unmarshal(new GsonDataFormat(CarDetailsType.class))
