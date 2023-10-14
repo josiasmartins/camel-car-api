@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class CarDetailsTypePOSTResponse {
 
-    private Long Id;
+    private Long id;
     private String carName;
     private String carModel;
     private String company;

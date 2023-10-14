@@ -46,6 +46,12 @@ public class MainRestRouterBuilder extends RouteBuilder {
                     .name("isYou")
                     .type(RestParamType.query)
                     .endParam()
+                .responseMessage()
+                    .code(400)
+                    .message("bad request")
+                    .endResponseMessage()
+
+
 //                .outType(CarDetailsTypePOSTResponse.class)
 //                .produces(MediaType.APPLICATION_JSON_VALUE)
                 .to("direct:TO_CarDetailsPOST");

@@ -19,7 +19,7 @@ public class CarDetailsPOSTResponseProcessor implements Processor {
                 .carName(body.getCarName())
                 .company(body.getCompany())
 //                .isYou(isYou)
-                .Id(body.getId()).build();
+                .id(body.getId()).build();
 
         exchange.getIn().setBody(response);
     }
