@@ -3,12 +3,15 @@ package com.techbuzzblogs.rest.camelproject.routes;
 import com.google.gson.Gson;
 import com.techbuzzblogs.rest.camelproject.model.CarDTO;
 import com.techbuzzblogs.rest.camelproject.model.CarDetailsType;
+import com.techbuzzblogs.rest.camelproject.model.CarDetailsTypePOSTRequest;
+import com.techbuzzblogs.rest.camelproject.model.CarDetailsTypePOSTResponse;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.gson.GsonDataFormat;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestParamType;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -36,12 +39,15 @@ public class MainRestRouterBuilder extends RouteBuilder {
                     .endParam() // finaliza o parametro
                 .to("direct:TO_CarDetailsGET"); // chama o componente TO_CardDetailsGET
 
-        rest("/camel/api/car")
-                .post("/create")
+        rest("/camel/api/car/create")
+                .post()
+//                .type(CarDetailsType.class)
                 .param()
                     .name("isYou")
                     .type(RestParamType.query)
                     .endParam()
+//                .outType(CarDetailsTypePOSTResponse.class)
+//                .produces(MediaType.APPLICATION_JSON_VALUE)
                 .to("direct:TO_CarDetailsPOST");
     }
     

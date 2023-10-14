@@ -1,5 +1,6 @@
 package com.techbuzzblogs.rest.camelproject.process;
 
+import com.techbuzzblogs.rest.camelproject.model.CarDetailsType;
 import com.techbuzzblogs.rest.camelproject.model.CarDetailsTypePOSTRequest;
 import com.techbuzzblogs.rest.camelproject.model.CarDetailsTypePOSTResponse;
 import org.apache.camel.Exchange;
@@ -9,7 +10,7 @@ public class CarDetailsPOSTResponseProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        CarDetailsTypePOSTRequest body = exchange.getIn().getBody(CarDetailsTypePOSTRequest.class);
+        CarDetailsTypePOSTResponse body = exchange.getIn().getBody(CarDetailsTypePOSTResponse.class);
 
         String isYou = exchange.getIn().getHeader("isYou", String.class); // pega o header
 
@@ -17,7 +18,7 @@ public class CarDetailsPOSTResponseProcessor implements Processor {
                 .carModel(body.getCarModel())
                 .carName(body.getCarName())
                 .company(body.getCompany())
-                .isYou(isYou)
+//                .isYou(isYou)
                 .Id(body.getId()).build();
 
         exchange.getIn().setBody(response);
