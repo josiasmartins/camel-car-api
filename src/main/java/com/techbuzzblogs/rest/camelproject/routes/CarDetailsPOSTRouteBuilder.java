@@ -1,17 +1,13 @@
 package com.techbuzzblogs.rest.camelproject.routes;
 
 import com.techbuzzblogs.rest.camelproject.model.CarDetailsType;
-import com.techbuzzblogs.rest.camelproject.model.CarDetailsTypePOSTRequest;
-import com.techbuzzblogs.rest.camelproject.model.CarDetailsTypePOSTResponse;
+import com.techbuzzblogs.rest.camelproject.model.CarDetailsTypeRequest;
+import com.techbuzzblogs.rest.camelproject.model.CarDetailsTypeResponse;
 import com.techbuzzblogs.rest.camelproject.process.CarDetailsPOSTRequestProcessor;
 import com.techbuzzblogs.rest.camelproject.process.CarDetailsPOSTResponseProcessor;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.gson.GsonDataFormat;
 import org.apache.camel.model.dataformat.JsonLibrary;
-import org.apache.http.HttpHeaders;
-import org.apache.http.client.methods.HttpHead;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -34,7 +30,7 @@ public class CarDetailsPOSTRouteBuilder extends RouteBuilder {
                 .to("http://localhost:9090/api/car/create?bridgeEndpoint=true")
 
                 .log("BODY depois Obejct ${body}")
-                .unmarshal(new GsonDataFormat(CarDetailsTypePOSTResponse.class))
+                .unmarshal(new GsonDataFormat(CarDetailsTypeRequest.class))
                 .process(new CarDetailsPOSTResponseProcessor())
                 .log("BODY final ${body}");
     }

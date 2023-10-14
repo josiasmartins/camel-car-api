@@ -1,6 +1,5 @@
 package com.techbuzzblogs.rest.camelproject.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,12 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 //@JsonIgnoreProperties(ignoreUnknown = true)
-public class CarDetailsTypePOSTResponse {
+public class CarDetailsTypeResponse {
 
     private Long id;
     private String carName;
     private String carModel;
     private String company;
-//    private String isYou;
+    private String isYou;
 
 }

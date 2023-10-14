@@ -1,7 +1,6 @@
 package com.techbuzzblogs.rest.camelproject.process;
 
 import com.techbuzzblogs.rest.camelproject.model.CarDetailsType;
-import com.techbuzzblogs.rest.camelproject.model.CarDetailsTypePOSTRequest;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
