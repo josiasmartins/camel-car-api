@@ -26,15 +26,23 @@ public class MainRestRouterBuilder extends RouteBuilder {
                 .component("servlet"); // seta o componente servlet que possui um servidor integradotomcat
 
 
-        rest("/camel/api") // contexto do path
-                .get("/car") // chamada GET
+        rest("/camel/api/car/{id}") // contexto do path
+                .get() // chamada GET
 //                .produces("text/plain")
 //                .outType(String.class)
                 .param() // adiciona paramatros da requisicao
-                    .name("name")
-                    .type(RestParamType.query) // tipo de parametro
+                    .name("id")
+                    .type(RestParamType.path) // param da rota tets/ess/{id}
                     .endParam() // finaliza o parametro
-                .to("direct:TO_CardDetailsGET"); // chama o componente TO_CardDetailsGET
+                .to("direct:TO_CarDetailsGET"); // chama o componente TO_CardDetailsGET
+
+        rest("/camel/api/car")
+                .post("/create")
+                .param()
+                    .name("isYou")
+                    .type(RestParamType.query)
+                    .endParam()
+                .to("direct:TO_CarDetailsPOST");
     }
     
 }

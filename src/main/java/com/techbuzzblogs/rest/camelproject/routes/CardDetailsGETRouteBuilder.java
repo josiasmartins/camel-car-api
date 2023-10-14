@@ -1,11 +1,7 @@
 package com.techbuzzblogs.rest.camelproject.routes;
 
-import com.google.gson.Gson;
-import com.techbuzzblogs.rest.camelproject.model.CarDTO;
 import com.techbuzzblogs.rest.camelproject.model.CarDetailsType;
-import com.techbuzzblogs.rest.camelproject.process.CarDetailsGETProcess;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
+import com.techbuzzblogs.rest.camelproject.process.CarDetailsGETProcessor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.gson.GsonDataFormat;
 import org.springframework.stereotype.Component;
@@ -14,13 +10,13 @@ import org.springframework.stereotype.Component;
 public class CardDetailsGETRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
-        from("direct:TO_CardDetailsGET")
+        from("direct:TO_CarDetailsGET")
                 .setHeader("CamelHttpMethod", constant("GET"))
-                .to("http://localhost:9090/api/car/?bridgeEndpoint=true")
+                .toD("http://localhost:9090/api/car/${header.id}?bridgeEndpoint=true")
                 .log("ibag rest ${body}")
                 .unmarshal(new GsonDataFormat(CarDetailsType.class))
                 .log("ibag rest ${body}")
-                .process(new CarDetailsGETProcess())
+                .process(new CarDetailsGETProcessor())
 //                .marshal().json(JsonLibrary.Jackson) // converter o objecto em json
 //                .doTry() // tratamento de exceção
 //                    .doCatch().
