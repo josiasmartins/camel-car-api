@@ -40,12 +40,12 @@ public class Base64ObjectProcessor implements Processor {
     }
 
     private void processFields(Object obj) throws IllegalAccessException {
-        Field[] fields = obj.getClass().getDeclaredFields();
+        Field[] fields = obj.getClass().getDeclaredFields(); // pega todos os campos da class
 
         for (Field field : fields) {
-            field.setAccessible(true);
+            field.setAccessible(true); // deixa os campos privados acessiveis
 
-            Object value = field.get(obj);
+            Object value = field.get(obj); // pega o valor do campo
 
             if (value != null && value instanceof String) {
                 // Converte o valor do campo para Base64
