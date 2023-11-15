@@ -3,6 +3,7 @@ package com.techbuzzblogs.rest.camelproject.routes;
 import com.techbuzzblogs.rest.camelproject.model.CarDetailsType;
 import com.techbuzzblogs.rest.camelproject.process.Base64ObjectProcessor;
 import com.techbuzzblogs.rest.camelproject.process.CarDetailsGETProcessor;
+import com.techbuzzblogs.rest.camelproject.process.DecodeBase64Processor;
 import com.techbuzzblogs.rest.camelproject.process.error.ErrorProcessor;
 import com.techbuzzblogs.rest.camelproject.process.error.OperationErrorProcessor;
 import org.apache.camel.Exchange;
@@ -25,8 +26,10 @@ public class CardDetailsGETRouteBuilder extends RouteBuilder {
                     .unmarshal(new GsonDataFormat(CarDetailsType.class))
                     .log("ibag rest ${body}")
                     .process(new CarDetailsGETProcessor())
-                    .process(new Base64ObjectProcessor())
-    //                .marshal().json(JsonLibrary.Jackson) // converter o objecto em json
+                    .process(new Base64ObjectProcessor(true))
+                    .process(new Base64ObjectProcessor(false))
+                    .process(new Base64ObjectProcessor(true))
+                //                .marshal().json(JsonLibrary.Jackson) // converter o objecto em json
     //                .doTry() // tratamento de exceção
     //                    .doCatch().
     //                .setBody(simple("Hello world, ${header.name}")) // seta o body com valores simples
