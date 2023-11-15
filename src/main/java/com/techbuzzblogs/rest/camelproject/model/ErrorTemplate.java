@@ -2,9 +2,7 @@ package com.techbuzzblogs.rest.camelproject.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Value;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -14,6 +12,8 @@ import javax.validation.Valid;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ErrorTemplate {
 
@@ -27,13 +27,13 @@ public class ErrorTemplate {
     private String _details;
 
     @JsonProperty("timestamp")
-    private OffsetDateTime _timestamp;
+    private String _timestamp;
 
     @JsonProperty("_traceId")
     private UUID _traceId;
 
     @JsonProperty("_errors")
-    @Valid
+//    @Valid
     private List<ErrorTemplateErrors>  _errors;
 
 }

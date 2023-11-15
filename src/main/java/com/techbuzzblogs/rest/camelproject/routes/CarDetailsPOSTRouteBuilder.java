@@ -4,11 +4,13 @@ import com.techbuzzblogs.rest.camelproject.model.CarDetailsType;
 import com.techbuzzblogs.rest.camelproject.model.CarDetailsTypeRequest;
 import com.techbuzzblogs.rest.camelproject.process.CarDetailsPOSTRequestProcessor;
 import com.techbuzzblogs.rest.camelproject.process.CarDetailsPOSTResponseProcessor;
+import com.techbuzzblogs.rest.camelproject.process.error.OperationErrorProcessor;
 import com.techbuzzblogs.rest.camelproject.process.error.ErrorProcessor;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.gson.GsonDataFormat;
 import org.apache.camel.component.jackson.JacksonDataFormat;
+import org.apache.camel.http.base.HttpOperationFailedException;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
@@ -35,6 +37,10 @@ public class CarDetailsPOSTRouteBuilder extends RouteBuilder {
                     .log("BODY final ${body}")
                 .doCatch(Exception.class)
                     .process(new ErrorProcessor())
+                    .marshal().json(JsonLibrary.Jackson)
+                    .stop()
+                .doCatch(HttpOperationFailedException.class)
+                    .process(new OperationErrorProcessor())
                     .marshal().json(JsonLibrary.Jackson)
                     .stop()
                 .end();

@@ -41,6 +41,10 @@ public class MainRestRouterBuilder extends RouteBuilder {
                     .code(400)
                     .message("bad request")
                     .endResponseMessage()
+                .responseMessage()
+                    .code(500)
+                    .message("Internal Server Error")
+                    .endResponseMessage()
 
 
 //                .outType(CarDetailsTypePOSTResponse.class)
