@@ -23,22 +23,6 @@ public class Base64ObjectProcessor implements Processor {
         }
     }
 
-    private void processFieldss(Object obj) throws IllegalAccessException {
-        Field[] fields = obj.getClass().getDeclaredFields();
-
-        for (Field field : fields) {
-            field.setAccessible(true);
-
-            Object value = field.get(obj);
-
-            if (value != null && value instanceof String) {
-                // Converte o valor do campo para Base64
-                String base64Value = Base64.getEncoder().encodeToString(((String) value).getBytes());
-                field.set(obj, base64Value);
-            }
-        }
-    }
-
     private void processFields(Object obj) throws IllegalAccessException {
         Field[] fields = obj.getClass().getDeclaredFields(); // pega todos os campos da class
 

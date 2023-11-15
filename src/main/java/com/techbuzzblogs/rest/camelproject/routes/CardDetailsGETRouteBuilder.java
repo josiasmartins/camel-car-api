@@ -27,19 +27,8 @@ public class CardDetailsGETRouteBuilder extends RouteBuilder {
                     .log("ibag rest ${body}")
                     .process(new CarDetailsGETProcessor())
                     .process(new Base64ObjectProcessor(true))
-                    .process(new Base64ObjectProcessor(false))
-                    .process(new Base64ObjectProcessor(true))
-                //                .marshal().json(JsonLibrary.Jackson) // converter o objecto em json
-    //                .doTry() // tratamento de exceção
-    //                    .doCatch().
-    //                .setBody(simple("Hello world, ${header.name}")) // seta o body com valores simples
-    //                .setBody(constant(response))
                     .log(" body ${body}") // log. ${body} retorno o body
-//                    .doCatch(Exception.class)
-//                        .process(new ErrorProcessor())
-//                        .marshal().json(JsonLibrary.Jackson)
-//                        .stop()
-                    .doCatch(HttpOperationFailedException.class)
+                    .doCatch(HttpOperationFailedException.class) // tratamento da HttpOperationFailedException
                         .process(new OperationErrorProcessor())
                         .marshal().json(JsonLibrary.Jackson)
                         .log("${body}")
