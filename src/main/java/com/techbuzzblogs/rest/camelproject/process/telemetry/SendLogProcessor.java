@@ -6,13 +6,15 @@ import org.apache.camel.Processor;
 
 import java.util.Map;
 
-public class SendLongProcessor implements Processor {
+public class SendLogProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
         Object response = exchange.getIn().getBody(Object.class);
+        // retorna o endpoint
         String httpUri = exchange.getIn().getHeader("CamelHttpUri").toString();
 
+        // retorna todas as propriedades mapeadas com @Logger
         Map<String, String> mapProperties = LoggUtil.extractPropertyInSaveMap(response);
 
         System.out.println(mapProperties + " IBAG MAP PROPERTIES");
