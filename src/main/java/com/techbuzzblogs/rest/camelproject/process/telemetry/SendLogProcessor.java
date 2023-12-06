@@ -15,7 +15,7 @@ public class SendLogProcessor implements Processor {
         String httpUri = exchange.getIn().getHeader("CamelHttpUri").toString();
 
         // retorna todas as propriedades mapeadas com @Logger
-        Map<String, String> mapProperties = LoggUtil.extractPropertyInSaveMap(response);
+        Map<String, String> mapProperties = LoggUtil.extractProperties(response);
 
         System.out.println(mapProperties + " IBAG MAP PROPERTIES");
     }
