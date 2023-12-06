@@ -37,6 +37,7 @@ public class Base64ObjectProcessor implements Processor {
                 field.set(obj, base64Value);
             }
         }
+
     }
 
     private String encodeDecode(String value) {

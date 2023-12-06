@@ -6,6 +6,7 @@ import com.techbuzzblogs.rest.camelproject.process.CarDetailsGETProcessor;
 import com.techbuzzblogs.rest.camelproject.process.DecodeBase64Processor;
 import com.techbuzzblogs.rest.camelproject.process.error.ErrorProcessor;
 import com.techbuzzblogs.rest.camelproject.process.error.OperationErrorProcessor;
+import com.techbuzzblogs.rest.camelproject.process.telemetry.SendLongProcessor;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.gson.GsonDataFormat;
@@ -24,6 +25,7 @@ public class CardDetailsGETRouteBuilder extends RouteBuilder {
                     .toD("http://localhost:9090/api/car/${header.id}?bridgeEndpoint=true")
                     .log("ibag rest ${body}")
                     .unmarshal(new GsonDataFormat(CarDetailsType.class))
+                    .process(new SendLongProcessor())
                     .log("ibag rest ${body}")
                     .process(new CarDetailsGETProcessor())
                     .process(new Base64ObjectProcessor(true))
