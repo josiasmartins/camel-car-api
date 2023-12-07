@@ -36,6 +36,7 @@ public class LoggUtil {
         Class<?> clazz = object.getClass();
         Field[] fields = clazz.getDeclaredFields();
 
+
         for (Field field : fields) {
             field.setAccessible(true);
 

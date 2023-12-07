@@ -1,6 +1,8 @@
 package com.techbuzzblogs.rest.camelproject.process.telemetry;
 
 import com.techbuzzblogs.rest.camelproject.utils.LoggUtil;
+import com.techbuzzblogs.rest.camelproject.utils.LoggerMethodUtil;
+import com.techbuzzblogs.rest.camelproject.utils.LoggerMethodsProcessor;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 
@@ -15,7 +17,9 @@ public class SendLogProcessor implements Processor {
         String httpUri = exchange.getIn().getHeader("CamelHttpUri").toString();
 
         // retorna todas as propriedades mapeadas com @Logger
-        Map<String, String> mapProperties = LoggUtil.extractProperties(response);
+        LoggerMethodsProcessor.processLoggerMethods(response);
+        System.out.println(response);
+        Map<String, String> mapProperties = LoggerMethodUtil.extractProperties(response);
 
         System.out.println(mapProperties + " IBAG MAP PROPERTIES");
     }

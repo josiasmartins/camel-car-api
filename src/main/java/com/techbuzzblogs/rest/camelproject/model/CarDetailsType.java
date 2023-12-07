@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.techbuzzblogs.rest.camelproject.decorators.JsonConverterField;
 import com.techbuzzblogs.rest.camelproject.decorators.Logger;
+import com.techbuzzblogs.rest.camelproject.decorators.LoggerMethods;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.java.Log;
 
 @Data
 @Builder
+@LoggerMethods
 public class CarDetailsType {
 
 //    @JsonProperty("carNames")
