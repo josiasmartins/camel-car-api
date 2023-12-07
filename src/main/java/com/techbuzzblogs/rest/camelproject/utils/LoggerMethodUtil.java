@@ -2,15 +2,13 @@ package com.techbuzzblogs.rest.camelproject.utils;
 
 import com.techbuzzblogs.rest.camelproject.decorators.Logger;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class LoggerMethodUtil {
-
 
     public static Map<String, String> extractProperties(Object object) {
         Map<String, String> propertyMap = new HashMap<>();
@@ -24,17 +22,17 @@ public class LoggerMethodUtil {
         }
 
         Class<?> clazz = object.getClass();
-        Method[] methods = clazz.getDeclaredMethods();
+        Field[] fields = clazz.getDeclaredFields();
 
-        for (Method method : methods) {
-            if (isMethodIgnorable(method)) {
+        for (Field field : fields) {
+            if (isFieldIgnorable(field)) {
                 continue;
             }
 
-            if (method.isAnnotationPresent(Logger.class)) {
+            if (field.isAnnotationPresent(Logger.class)) {
                 try {
-                    Object value = method.invoke(object);
-                    String propertyName = prefix.isEmpty() ? method.getName() : prefix + "." + method.getName();
+                    Object value = getFieldValueUsingGetter(object, field);
+                    String propertyName = prefix.isEmpty() ? field.getName() : prefix + "." + field.getName();
 
                     if (isSimpleType(value)) {
                         propertyMap.put(propertyName, value != null ? value.toString() : "null");
@@ -49,17 +47,27 @@ public class LoggerMethodUtil {
                         extractPropertiesRecursively(value, propertyName, propertyMap);
                     }
 
-                } catch (IllegalAccessException | InvocationTargetException ex) {
+                } catch (NoSuchMethodException ex) {
                     ex.printStackTrace();
                 }
             }
         }
     }
 
+    private static Object getFieldValueUsingGetter(Object object, Field field) throws NoSuchMethodException {
+        try {
+            String getterMethodName = "get" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
+            Method getterMethod = object.getClass().getMethod(getterMethodName);
+            return getterMethod.invoke(object);
+        } catch (Exception e) {
+            throw new NoSuchMethodException("Getter not found for field: " + field.getName());
+        }
+    }
+
     private static void processArray(Object array, String propertyName, Map<String, String> propertyMap) {
-        int length = java.lang.reflect.Array.getLength(array);
+        int length = Array.getLength(array);
         for (int i = 0; i < length; i++) {
-            extractPropertiesRecursively(java.lang.reflect.Array.get(array, i), concatFullNameProperty(propertyName, i), propertyMap);
+            extractPropertiesRecursively(Array.get(array, i), concatFullNameProperty(propertyName, i), propertyMap);
         }
     }
 
@@ -76,7 +84,7 @@ public class LoggerMethodUtil {
     private static Object createMutableCopy(Object value) {
         if (value instanceof List) {
             List<?> listImmutable = (List<?>) value;
-            return new java.util.ArrayList<>(listImmutable);
+            return new ArrayList<>(listImmutable);
         }
         return value;
     }
@@ -89,9 +97,9 @@ public class LoggerMethodUtil {
         return (value instanceof String || value instanceof Number || value instanceof Boolean || value == null);
     }
 
-    private static boolean isMethodIgnorable(Method method) {
-        int modifiers = method.getModifiers();
-        return method.isSynthetic() || Modifier.isStatic(modifiers);
+    private static boolean isFieldIgnorable(Field field) {
+        int modifiers = field.getModifiers();
+        return Modifier.isStatic(modifiers) || Modifier.isFinal(modifiers) || field.isSynthetic();
     }
 
 }
