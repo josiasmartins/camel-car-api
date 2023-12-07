@@ -19,7 +19,8 @@ public class SendLogProcessor implements Processor {
         // retorna todas as propriedades mapeadas com @Logger
         LoggerMethodsProcessor.processLoggerMethods(response);
         System.out.println(response);
-        Map<String, String> mapProperties = LoggerMethodUtil.extractProperties(response);
+        Map<String, String> mapProperties = LoggUtil.extractProperties(response);
+        Map<String, String> otherMapProperties = LoggerMethodUtil.extractProperties(response);
 
         System.out.println(mapProperties + " IBAG MAP PROPERTIES");
     }
