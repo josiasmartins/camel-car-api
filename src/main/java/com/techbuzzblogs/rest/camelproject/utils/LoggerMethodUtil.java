@@ -1,6 +1,7 @@
 package com.techbuzzblogs.rest.camelproject.utils;
 
 import com.techbuzzblogs.rest.camelproject.decorators.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.*;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.Map;
  * Utility class for extracting properties annotated with {@link Logger} from an object.
  */
 public class LoggerMethodUtil {
+
+    private static org.slf4j.Logger LOG = LoggerFactory.getLogger(LoggerMethodUtil.class);
 
     /**
      * Extracts properties annotated with {@link Logger} from an object and returns them in a map.
@@ -63,7 +66,7 @@ public class LoggerMethodUtil {
                         extractPropertiesRecursively(value, propertyName, propertyMap);
                     }
 
-                } catch (NoSuchMethodException ex) {
+                } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ex) {
                     ex.printStackTrace();
                 }
             }
@@ -78,13 +81,14 @@ public class LoggerMethodUtil {
      * @return The value of the field.
      * @throws NoSuchMethodException If the getter method is not found.
      */
-    private static Object getFieldValueUsingGetter(Object object, Field field) throws NoSuchMethodException {
+    private static Object getFieldValueUsingGetter(Object object, Field field) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         try {
             String getterMethodName = "get" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
             Method getterMethod = object.getClass().getMethod(getterMethodName);
             return getterMethod.invoke(object);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new NoSuchMethodException("Getter not found for field: " + field.getName());
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ex) {
+            LOG.error("Error extracting property: " + field.getName(), ex);
+            throw new RuntimeException("Error extracting property: " + field.getName(), ex);
         }
     }
 
