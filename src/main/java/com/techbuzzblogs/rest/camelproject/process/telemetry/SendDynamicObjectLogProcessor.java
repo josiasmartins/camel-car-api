@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class SendDynamicObjectLogProcessor implements Processor {
 
-    private static Logger LOG = LoggerFactory.getLogger(LoggerMethodUtil.class);
+    private static Logger LOG = LoggerFactory.getLogger(SendDynamicObjectLogProcessor.class);
 
     @Override
     public void process(Exchange exchange) throws Exception {
