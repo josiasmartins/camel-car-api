@@ -51,7 +51,7 @@ public class LoggerMethodUtil {
             if (field.isAnnotationPresent(Logger.class)) {
                 try {
                     Object value = getFieldValueUsingGetter(object, field);
-                    String propertyName = prefix.isEmpty() ? field.getName() : prefix + "." + field.getName();
+                    String propertyName = dynamicPropertyName(field, prefix);
 
                     if (isSimpleType(value)) {
                         propertyMap.put(propertyName, value != null ? value.toString() : "null");
@@ -91,6 +91,19 @@ public class LoggerMethodUtil {
             throw new RuntimeException("Error extracting property: " + field.getName(), ex);
         }
     }
+
+    /**
+     *  Get dynamic property name field with prefix and Logger annotation
+     * @param field   The field
+     * @param prefix  The prefix for the property name
+     * @return A property name
+     */
+   private static String dynamicPropertyName(Field field, String prefix) {
+        String valueLoggerAnnotation = field.getAnnotation(Logger.class).values();
+        String dynamicName = valueLoggerAnnotation.isEmpty() ? field.getName() : valueLoggerAnnotation;
+
+        return prefix.isEmpty() ? dynamicName : prefix + "." + dynamicName;
+   }
 
     /**
      * Processes an array, extracting properties and updating the property map.
